@@ -1,6 +1,6 @@
 <div class="wrap">
   <h1>Nouveau virement</h1>
-  <p class="muted">Envoyez de l'argent vers un autre compte Nova Bank.</p>
+  <p class="muted">Envoyez de l'argent vers un autre compte ISMA BANK.</p>
 
   <div class="card form-card">
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -20,8 +20,8 @@
         <span class="error">
           @if (showError(form.controls.toAccount) && form.controls.toAccount.hasError('required')) {
             Le compte bénéficiaire est requis.
-          } @else if (showError(form.controls.toAccount) && form.controls.toAccount.hasError('maxlength')) {
-            Numéro de compte trop long.
+          } @else if (showError(form.controls.toAccount) && form.controls.toAccount.hasError('frIban')) {
+            Format attendu : FR76 suivi de 23 chiffres (espaces tolérés).
           }
         </span>
       </div>
@@ -43,7 +43,7 @@
           } @else if (showError(form.controls.amount) && form.controls.amount.hasError('min')) {
             Le montant doit être d'au moins 0,01 €.
           } @else if (showError(form.controls.amount) && form.controls.amount.hasError('max')) {
-            Plafond de 10 000 € par virement.
+            Plafond de 100 000 € par virement.
           }
         </span>
       </div>

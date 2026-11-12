@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AccountService } from '../../core/account.service';
 import { extractError } from '../../core/problem';
+import { formatEuros } from '../../core/format';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,15 +20,7 @@ export class Dashboard {
 
   protected readonly balanceLabel = computed(() => {
     const acc = this.account();
-    if (!acc) return '—';
-    try {
-      return new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: acc.currency || 'EUR',
-      }).format(acc.balance);
-    } catch {
-      return `${acc.balance} ${acc.currency}`;
-    }
+    return acc ? formatEuros(acc.balance) : '—';
   });
 
   constructor() {

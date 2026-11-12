@@ -7,6 +7,7 @@ import { AccountService } from '../../core/account.service';
 import { Transfer } from '../../core/models';
 import { extractError } from '../../core/problem';
 import { formatEuros } from '../../core/format';
+import { frIbanValidator, normalizeAccount } from '../../core/validators';
 
 const POLL_INTERVAL_MS = 800;
 const POLL_TIMEOUT_MS = 20000;
@@ -31,10 +32,10 @@ export class TransferPage {
   protected readonly timedOut = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
-    toAccount: ['', [Validators.required, Validators.maxLength(34)]],
+    toAccount: ['', [Validators.required, frIbanValidator]],
     amount: [
       null as number | null,
-      [Validators.required, Validators.min(0.01), Validators.max(10000)],
+      [Validators.required, Validators.min(0.01), Validators.max(100000)],
     ],
     label: ['', [Validators.maxLength(140)]],
   });
@@ -54,7 +55,10 @@ export class TransferPage {
       this.form.markAllAsTouched();
       return;
     }
-    const { toAccount, amount, label } = this.form.getRawValue();
+    const raw = this.form.getRawValue();
+    const toAccount = normalizeAccount(raw.toAccount); // espaces retirés avant envoi
+    const amount = raw.amount;
+    const label = raw.label;
     this.submitting.set(true);
     this.pending.set(false);
     this.timedOut.set(false);

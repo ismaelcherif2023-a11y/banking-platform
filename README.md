@@ -76,7 +76,7 @@ docker compose up -d --build
 
 | Méthode | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/auth/register` | Crée un utilisateur + un compte (1000 € offerts pour la démo) |
+| `POST` | `/api/auth/register` | Crée un utilisateur + un compte (50 000 € offerts pour la démo) |
 | `POST` | `/api/auth/login` | Retourne un JWT |
 | `GET` | `/api/accounts/me` | Solde et infos du compte connecté |
 | `POST` | `/api/transfers` | Demande un virement (`202 Accepted`) |

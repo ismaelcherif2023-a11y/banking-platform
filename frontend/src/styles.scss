@@ -1,5 +1,5 @@
 /* ============================================================
-   Nova Bank — design system global
+   ISMA BANK — design system global
    Palette sobre « banque en ligne » : indigo profond + accent menthe.
    ============================================================ */
 
@@ -115,6 +115,43 @@ a:hover {
 
 .field input.invalid {
   border-color: var(--danger-fg);
+}
+
+/* Champ mot de passe avec bouton afficher/masquer */
+.password-field {
+  position: relative;
+  display: flex;
+}
+.password-field input {
+  flex: 1;
+  padding-right: 46px;
+  width: 100%;
+}
+.password-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 0;
+  padding: 7px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.password-toggle svg {
+  display: block;
+}
+.password-toggle:hover {
+  background: var(--surface-2);
+}
+.password-toggle:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 1px;
 }
 
 .field .error {

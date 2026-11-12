@@ -10,7 +10,7 @@ register() {
     -d "{\"fullName\":\"$1\",\"email\":\"$2\",\"password\":\"Password123!\"}"
 }
 
-echo "== Inscription d'Alice et Bob (1000 EUR offerts chacun)"
+echo "== Inscription d'Alice et Bob (50000 EUR offerts chacun)"
 ALICE=$(register "Alice Martin" "alice$SUFFIX@demo.fr")
 BOB=$(register "Bob Diallo" "bob$SUFFIX@demo.fr")
 ALICE_TOKEN=$(echo "$ALICE" | jq -r .token)
@@ -21,9 +21,9 @@ echo "== Alice vire 250 EUR à Bob ($BOB_ACCOUNT)"
 curl -sf -X POST "$T/api/transfers" -H "Authorization: Bearer $ALICE_TOKEN" -H 'Content-Type: application/json' \
   -d "{\"toAccount\":\"$BOB_ACCOUNT\",\"amount\":250.00,\"label\":\"Remboursement\"}" | jq '{id, status}'
 
-echo "== Alice tente 5000 EUR (solde insuffisant)"
+echo "== Alice tente 60000 EUR (solde insuffisant)"
 curl -sf -X POST "$T/api/transfers" -H "Authorization: Bearer $ALICE_TOKEN" -H 'Content-Type: application/json' \
-  -d "{\"toAccount\":\"$BOB_ACCOUNT\",\"amount\":5000.00}" | jq '{id, status}'
+  -d "{\"toAccount\":\"$BOB_ACCOUNT\",\"amount\":60000.00}" | jq '{id, status}'
 
 sleep 2
 echo "== Historique d'Alice (statuts mis à jour via Kafka)"

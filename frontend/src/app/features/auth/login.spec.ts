@@ -40,4 +40,24 @@ describe('Login — affichage des erreurs', () => {
     expect(el.querySelectorAll('input.invalid').length).toBeGreaterThan(0);
     expect(el.textContent).toContain('requise');
   });
+
+  it('le bouton œil bascule le type du champ mot de passe', async () => {
+    const fixture = TestBed.createComponent(Login);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    const pwd = el.querySelector('#password') as HTMLInputElement;
+    const toggle = el.querySelector('.password-toggle') as HTMLButtonElement;
+
+    expect(toggle.getAttribute('type')).toBe('button');
+    expect(toggle.getAttribute('aria-label')).toContain('Afficher');
+    expect(pwd.type).toBe('password');
+
+    toggle.click();
+    fixture.detectChanges();
+
+    expect(pwd.type).toBe('text');
+    expect(toggle.getAttribute('aria-label')).toContain('Masquer');
+  });
 });

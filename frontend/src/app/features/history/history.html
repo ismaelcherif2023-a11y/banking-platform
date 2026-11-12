@@ -33,7 +33,12 @@
         <div class="row__main">
           <div class="row__line">
             <strong>{{ t.outgoing ? 'Virement émis' : 'Virement reçu' }}</strong>
-            <span class="row__amount" [class.out]="t.outgoing" [class.in]="!t.outgoing">
+            <span
+              class="row__amount"
+              [class.out]="t.outgoing && t.status !== 'FAILED'"
+              [class.in]="!t.outgoing && t.status !== 'FAILED'"
+              [class.failed]="t.status === 'FAILED'"
+            >
               {{ amountLabel(t) }}
             </span>
           </div>

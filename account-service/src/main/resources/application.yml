@@ -35,7 +35,7 @@ security:
     allowed-origin: ${CORS_ORIGIN:http://localhost:4200}
 
 bank:
-  welcome-balance: 1000.00
+  welcome-balance: 50000.00
 
 management:
   endpoints:

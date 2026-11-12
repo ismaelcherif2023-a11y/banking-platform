@@ -4,12 +4,12 @@ import { authGuard } from './core/auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    title: 'Connexion — Nova Bank',
+    title: 'Connexion — ISMA BANK',
     loadComponent: () => import('./features/auth/login').then((m) => m.Login),
   },
   {
     path: 'register',
-    title: 'Inscription — Nova Bank',
+    title: 'Inscription — ISMA BANK',
     loadComponent: () => import('./features/auth/register').then((m) => m.Register),
   },
   {
@@ -19,17 +19,17 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        title: 'Tableau de bord — Nova Bank',
+        title: 'Tableau de bord — ISMA BANK',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'transfer',
-        title: 'Nouveau virement — Nova Bank',
+        title: 'Nouveau virement — ISMA BANK',
         loadComponent: () => import('./features/transfer/transfer').then((m) => m.TransferPage),
       },
       {
         path: 'history',
-        title: 'Historique — Nova Bank',
+        title: 'Historique — ISMA BANK',
         loadComponent: () => import('./features/history/history').then((m) => m.History),
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
