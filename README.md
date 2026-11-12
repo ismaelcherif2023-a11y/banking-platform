@@ -67,9 +67,10 @@ docker compose up -d --build
 
 | URL | Contenu |
 |---|---|
-| http://localhost:8081/swagger-ui.html | API account-service |
-| http://localhost:8082/swagger-ui.html | API transfer-service |
-| http://localhost:8090 | Kafka UI (voir les messages passer) |
+| http://localhost:4200 | **Interface Angular** (connexion, solde, virement, historique) |
+| http://localhost:8081/swagger-ui.html | API account-service (bouton **Authorize** JWT) |
+| http://localhost:8082/swagger-ui.html | API transfer-service (bouton **Authorize** JWT) |
+| http://localhost:8091 | Kafka UI (voir les messages passer) |
 
 ## API
 
@@ -82,19 +83,41 @@ docker compose up -d --build
 | `GET` | `/api/transfers` | Historique (émis et reçus) |
 | `GET` | `/api/transfers/{id}` | Statut d'un virement |
 
+## Frontend (Angular)
+
+Interface **Angular 21** (composants standalone, signals, routing, SCSS) servie par **nginx**, dans `frontend/`.
+
+- **Pages** : connexion, inscription (formulaires réactifs validés), tableau de bord (solde mis en avant + numéro de compte copiable), virement et historique (badges de statut, sens émis/reçu, raison d'échec).
+- **Suivi temps réel** : après un virement, l'app rafraîchit le statut jusqu'à ce qu'il quitte `PENDING`, puis met le solde à jour.
+- **Sécurité** : `AuthService` (JWT en `localStorage`), intercepteur HTTP qui injecte le `Bearer`, déconnexion automatique sur `401`, guard sur les pages privées, erreurs backend (RFC 7807) affichées proprement.
+- **Même origine** : nginx proxifie `/api/auth` et `/api/accounts` vers `account-service:8081`, `/api/transfers` vers `transfer-service:8082` — donc **aucun CORS**.
+
+```bash
+cd frontend
+npm ci
+npm start                     # dev sur http://localhost:4200 (proxy vers les API)
+npm test -- --watch=false     # tests unitaires (Vitest, headless)
+npm run build                 # build de production
+```
+
+> ⚠️ Angular 21 requiert **Node ≥ 22.12** (ou 20.19+/24+). Le build Docker utilise l'image `node:24-alpine`.
+
 ## Tests
 
 ```bash
-mvn verify
+mvn verify                              # backend (JDK 21 requis)
+cd frontend && npm test -- --watch=false  # frontend (Vitest headless)
 ```
 
-Tests unitaires sur la logique métier : virement réussi, solde insuffisant, bénéficiaire inconnu, **idempotence en cas de double livraison**, transitions de statut. Pipeline CI GitHub Actions à chaque push.
+Backend — tests unitaires sur la logique métier : virement réussi, solde insuffisant, bénéficiaire inconnu, **idempotence en cas de double livraison**, transitions de statut.
+Frontend — `AuthService`, intercepteur JWT et guard d'authentification.
+Pipeline CI GitHub Actions (jobs **backend** + **frontend**) à chaque push.
 
 ## Feuille de route
 
 - [x] Microservices Spring Boot + Kafka + PostgreSQL + JWT
 - [x] Docker Compose, CI GitHub Actions
-- [ ] Interface Angular (connexion, solde, virement, historique)
+- [x] Interface Angular (connexion, solde, virement, historique)
 - [ ] Tests d'intégration avec Testcontainers (Kafka + PostgreSQL réels)
 - [ ] Pattern **Transactional Outbox** pour garantir la publication des événements
 - [ ] API Gateway (Spring Cloud Gateway) et supervision Prometheus + Grafana

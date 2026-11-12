@@ -67,5 +67,12 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_healthy }
 
+  frontend:
+    build: { context: ./frontend, dockerfile: Dockerfile }
+    ports: ["4200:80"]
+    depends_on:
+      - account-service
+      - transfer-service
+
 volumes:
   pgdata:

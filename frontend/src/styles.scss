@@ -1,0 +1,320 @@
+/* ============================================================
+   Nova Bank — design system global
+   Palette sobre « banque en ligne » : indigo profond + accent menthe.
+   ============================================================ */
+
+:root {
+  /* Marque */
+  --brand-900: #0b1437;
+  --brand-800: #141d4e;
+  --brand-700: #1e2a6b;
+  --brand-600: #2d3d9c;
+  --brand-500: #3b50c4;
+  --brand-400: #5e72e4;
+  --accent-500: #0ea5a0;
+  --accent-400: #14c4bd;
+
+  /* Neutres */
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --border: #e4e8f0;
+  --text: #121726;
+  --text-muted: #65708a;
+
+  /* États */
+  --success-bg: #e7f7ef;
+  --success-fg: #0f7a4a;
+  --danger-bg: #fdecec;
+  --danger-fg: #c23434;
+  --warn-bg: #fff6e6;
+  --warn-fg: #9a6b11;
+
+  /* Divers */
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 56, 0.06);
+  --shadow-md: 0 10px 30px rgba(16, 24, 56, 0.1);
+  --shadow-lg: 0 24px 60px rgba(16, 24, 56, 0.18);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--brand-500);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Carte ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Formulaires ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field input {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 4px rgba(94, 114, 228, 0.15);
+}
+
+.field input.invalid {
+  border-color: var(--danger-fg);
+}
+
+.field .error {
+  font-size: 0.8rem;
+  color: var(--danger-fg);
+  min-height: 1em;
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.08s, background 0.15s, box-shadow 0.15s, opacity 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 18px rgba(59, 80, 196, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---------- Badges de statut ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+.badge-danger {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+}
+.badge-pending {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+}
+
+/* ---------- Alertes ---------- */
+.alert {
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.alert-danger {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+}
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+
+/* ---------- Pages d'authentification ---------- */
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+.auth__brand {
+  background: radial-gradient(1200px 600px at 10% -10%, var(--brand-600), var(--brand-900));
+  color: #fff;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.auth__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+.auth__logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent-400), var(--accent-500));
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: var(--brand-900);
+}
+.auth__pitch h2 {
+  font-size: 2.1rem;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.auth__pitch p {
+  color: #c7cded;
+  max-width: 34ch;
+}
+.auth__features {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.auth__features li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #dfe3f4;
+  font-size: 0.95rem;
+}
+.auth__features li::before {
+  content: '✓';
+  color: var(--accent-400);
+  font-weight: 800;
+}
+.auth__form-wrap {
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+}
+.auth__form {
+  width: 100%;
+  max-width: 400px;
+}
+.auth__form h1 {
+  font-size: 1.7rem;
+  margin-bottom: 6px;
+}
+.auth__form .sub {
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+.auth__switch {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+@media (max-width: 860px) {
+  .auth {
+    grid-template-columns: 1fr;
+  }
+  .auth__brand {
+    display: none;
+  }
+}
+
+/* ---------- Utilitaires ---------- */
+.muted {
+  color: var(--text-muted);
+}
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

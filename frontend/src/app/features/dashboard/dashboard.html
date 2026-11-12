@@ -1,0 +1,71 @@
+<div class="head">
+  <div>
+    <h1>Tableau de bord</h1>
+    <p class="muted">Bienvenue@if (account(); as acc) {, {{ acc.ownerName }}}.</p>
+  </div>
+  <a class="btn btn-primary" routerLink="/transfer">+ Nouveau virement</a>
+</div>
+
+@if (error()) {
+  <div class="alert alert-danger" style="margin-bottom: 20px">{{ error() }}</div>
+}
+
+<section class="balance-card card">
+  <div class="balance-card__bg"></div>
+  <div class="balance-card__content">
+    <span class="balance-card__label">Solde disponible</span>
+    <div class="balance-card__amount">{{ balanceLabel() }}</div>
+
+    <div class="balance-card__account">
+      <div>
+        <span class="balance-card__account-label">Numéro de compte</span>
+        <span class="balance-card__number">{{ account()?.number || '—' }}</span>
+      </div>
+      <button
+        class="copy-btn"
+        type="button"
+        (click)="copyNumber()"
+        [disabled]="!account()"
+        [class.copied]="copied()"
+      >
+        @if (copied()) {
+          ✓ Copié
+        } @else {
+          ⧉ Copier
+        }
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="info-grid">
+  <div class="card info-tile">
+    <span class="muted">Titulaire</span>
+    <strong>{{ account()?.ownerName || '—' }}</strong>
+  </div>
+  <div class="card info-tile">
+    <span class="muted">E-mail</span>
+    <strong>{{ account()?.email || '—' }}</strong>
+  </div>
+  <div class="card info-tile">
+    <span class="muted">Devise</span>
+    <strong>{{ account()?.currency || '—' }}</strong>
+  </div>
+</div>
+
+<div class="quick">
+  <a class="card quick__item" routerLink="/transfer">
+    <span class="quick__icon">↗</span>
+    <div>
+      <strong>Envoyer de l'argent</strong>
+      <span class="muted">Virement vers un compte Nova</span>
+    </div>
+  </a>
+  <a class="card quick__item" routerLink="/history">
+    <span class="quick__icon">🕑</span>
+    <div>
+      <strong>Historique</strong>
+      <span class="muted">Vos virements émis et reçus</span>
+    </div>
+  </a>
+</div>

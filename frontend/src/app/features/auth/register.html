@@ -1,0 +1,94 @@
+<div class="auth">
+  <aside class="auth__brand">
+    <div class="auth__logo">
+      <span class="auth__logo-mark">N</span>
+      Nova Bank
+    </div>
+    <div class="auth__pitch">
+      <h2>Ouvrez votre compte en 30 secondes.</h2>
+      <p>Pas de paperasse. Un compte prêt à l'emploi, avec 1 000 € offerts pour la démo.</p>
+      <ul class="auth__features">
+        <li>Création immédiate du compte</li>
+        <li>IBAN généré automatiquement</li>
+        <li>Virements vers n'importe quel compte Nova</li>
+      </ul>
+    </div>
+    <small style="color: #9aa3cf">© 2026 Nova Bank — démo</small>
+  </aside>
+
+  <main class="auth__form-wrap">
+    <form class="auth__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <h1>Créer un compte</h1>
+      <p class="sub">Rejoignez Nova Bank dès maintenant.</p>
+
+      @if (error()) {
+        <div class="alert alert-danger" style="margin-bottom: 20px">{{ error() }}</div>
+      }
+
+      <div class="field">
+        <label for="fullName">Nom complet</label>
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          autocomplete="name"
+          placeholder="Alice Martin"
+          [class.invalid]="form.controls.fullName.touched && form.controls.fullName.invalid"
+        />
+        <span class="error">
+          @if (form.controls.fullName.touched && form.controls.fullName.hasError('required')) {
+            Le nom complet est requis.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="email">Adresse e-mail</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="vous@exemple.com"
+          [class.invalid]="form.controls.email.touched && form.controls.email.invalid"
+        />
+        <span class="error">
+          @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+            L'adresse e-mail est requise.
+          } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+            Format d'e-mail invalide.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+          placeholder="8 caractères minimum"
+          [class.invalid]="form.controls.password.touched && form.controls.password.invalid"
+        />
+        <span class="error">
+          @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+            Le mot de passe est requis.
+          } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+            8 caractères minimum.
+          }
+        </span>
+      </div>
+
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spin">⟳</span> Création…
+        } @else {
+          Créer mon compte
+        }
+      </button>
+
+      <p class="auth__switch">Déjà client ? <a routerLink="/login">Se connecter</a></p>
+    </form>
+  </main>
+</div>

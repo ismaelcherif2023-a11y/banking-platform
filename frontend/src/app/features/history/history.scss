@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.head h1 {
+  font-size: 1.6rem;
+}
+.head p {
+  margin: 4px 0 0;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 0.88rem;
+}
+
+.empty {
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.list {
+  padding: 6px 8px;
+}
+
+.row {
+  display: flex;
+  gap: 14px;
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__dir {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.row__dir.out {
+  background: rgba(194, 52, 52, 0.1);
+  color: var(--danger-fg);
+}
+.row__dir.in {
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+
+.row__main {
+  flex: 1;
+  min-width: 0;
+}
+.row__line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.row__amount {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.row__amount.out {
+  color: var(--danger-fg);
+}
+.row__amount.in {
+  color: var(--success-fg);
+}
+.row__meta {
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+.row__fail {
+  font-size: 0.85rem;
+  color: var(--danger-fg);
+  margin-top: 4px;
+}
+.mono {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+}

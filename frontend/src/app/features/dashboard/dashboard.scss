@@ -1,0 +1,156 @@
+:host {
+  display: block;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.head h1 {
+  font-size: 1.6rem;
+}
+.head p {
+  margin: 4px 0 0;
+}
+
+/* ----- Carte solde (mise en avant) ----- */
+.balance-card {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  color: #fff;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-md);
+}
+.balance-card__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 300px at 90% -40%, var(--brand-500), transparent),
+    linear-gradient(135deg, var(--brand-800), var(--brand-900));
+}
+.balance-card__content {
+  position: relative;
+  padding: 28px 30px;
+}
+.balance-card__label {
+  font-size: 0.85rem;
+  color: #b9c0e6;
+  letter-spacing: 0.02em;
+}
+.balance-card__amount {
+  font-size: 2.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 6px 0 24px;
+}
+.balance-card__account {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 18px;
+}
+.balance-card__account-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #aab2dd;
+  margin-bottom: 4px;
+}
+.balance-card__number {
+  font-family: 'Courier New', monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  word-break: break-all;
+}
+.copy-btn {
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.copy-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+}
+.copy-btn.copied {
+  background: var(--accent-500);
+  border-color: var(--accent-500);
+}
+
+/* ----- Tuiles info ----- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.info-tile {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.info-tile strong {
+  font-size: 1.02rem;
+  word-break: break-word;
+}
+
+/* ----- Accès rapides ----- */
+.quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.quick__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.15s, transform 0.08s;
+}
+.quick__item:hover {
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.quick__item strong {
+  display: block;
+}
+.quick__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(94, 114, 228, 0.12);
+  color: var(--brand-600);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 760px) {
+  .head {
+    flex-direction: column;
+  }
+  .balance-card__amount {
+    font-size: 2.3rem;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+.wrap {
+  max-width: 560px;
+}
+.wrap > h1 {
+  font-size: 1.6rem;
+}
+.wrap > p {
+  margin: 4px 0 24px;
+}
+
+.form-card {
+  padding: 26px 28px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 0.88rem;
+}
+
+/* ----- Cartes de statut ----- */
+.status-card {
+  margin-top: 20px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.status-card strong {
+  display: block;
+  font-size: 1.05rem;
+}
+.status-card p {
+  margin: 4px 0 0;
+}
+.status-card .big {
+  font-size: 1.4rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.status-card__cta {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.status-card--pending {
+  border-left: 4px solid var(--warn-fg);
+}
+.status-card--pending .big {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+}
+.status-card--ok {
+  border-left: 4px solid var(--success-fg);
+}
+.status-card--ok .big {
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+.status-card--fail {
+  border-left: 4px solid var(--danger-fg);
+}
+.status-card--fail .big {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+}
+
+.spin.big {
+  animation: spin 0.8s linear infinite;
+}

@@ -1,0 +1,65 @@
+<div class="head">
+  <div>
+    <h1>Historique</h1>
+    <p class="muted">Tous vos virements, émis et reçus.</p>
+  </div>
+  <button class="btn btn-ghost btn-sm" type="button" (click)="refresh()" [disabled]="loading()">
+    @if (loading()) {
+      <span class="spin">⟳</span>
+    } @else {
+      ⟳ Actualiser
+    }
+  </button>
+</div>
+
+@if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+} @else if (loading() && rows().length === 0) {
+  <div class="card empty">Chargement…</div>
+} @else if (rows().length === 0) {
+  <div class="card empty">
+    <strong>Aucun virement pour l'instant</strong>
+    <p class="muted">Vos opérations apparaîtront ici.</p>
+    <a class="btn btn-primary btn-sm" routerLink="/transfer">Faire un virement</a>
+  </div>
+} @else {
+  <div class="card list">
+    @for (t of rows(); track t.id) {
+      <div class="row">
+        <div class="row__dir" [class.out]="t.outgoing" [class.in]="!t.outgoing">
+          {{ t.outgoing ? '↗' : '↙' }}
+        </div>
+
+        <div class="row__main">
+          <div class="row__line">
+            <strong>{{ t.outgoing ? 'Virement émis' : 'Virement reçu' }}</strong>
+            <span class="row__amount" [class.out]="t.outgoing" [class.in]="!t.outgoing">
+              {{ amountLabel(t) }}
+            </span>
+          </div>
+          <div class="row__line">
+            <span class="muted mono">{{ counterparty(t) }}</span>
+            @switch (t.status) {
+              @case ('COMPLETED') {
+                <span class="badge badge-success">Effectué</span>
+              }
+              @case ('FAILED') {
+                <span class="badge badge-danger">Refusé</span>
+              }
+              @default {
+                <span class="badge badge-pending">En cours</span>
+              }
+            }
+          </div>
+          @if (t.label) {
+            <div class="row__meta">{{ t.label }}</div>
+          }
+          @if (t.status === 'FAILED' && t.failureReason) {
+            <div class="row__fail">⚠ {{ t.failureReason }}</div>
+          }
+          <div class="row__meta muted">{{ date(t.createdAt) }}</div>
+        </div>
+      </div>
+    }
+  </div>
+}

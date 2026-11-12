@@ -1,0 +1,134 @@
+<div class="wrap">
+  <h1>Nouveau virement</h1>
+  <p class="muted">Envoyez de l'argent vers un autre compte Nova Bank.</p>
+
+  <div class="card form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      @if (error()) {
+        <div class="alert alert-danger" style="margin-bottom: 18px">{{ error() }}</div>
+      }
+
+      <div class="field">
+        <label for="toAccount">Compte bénéficiaire</label>
+        <input
+          id="toAccount"
+          type="text"
+          formControlName="toAccount"
+          placeholder="FR76…"
+          [class.invalid]="form.controls.toAccount.touched && form.controls.toAccount.invalid"
+        />
+        <span class="error">
+          @if (form.controls.toAccount.touched && form.controls.toAccount.hasError('required')) {
+            Le compte bénéficiaire est requis.
+          } @else if (form.controls.toAccount.touched && form.controls.toAccount.hasError('maxlength')) {
+            Numéro de compte trop long.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="amount">Montant (EUR)</label>
+        <input
+          id="amount"
+          type="number"
+          step="0.01"
+          min="0.01"
+          formControlName="amount"
+          placeholder="250.00"
+          [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
+        />
+        <span class="error">
+          @if (form.controls.amount.touched && form.controls.amount.hasError('required')) {
+            Le montant est requis.
+          } @else if (form.controls.amount.touched && form.controls.amount.hasError('min')) {
+            Le montant doit être d'au moins 0,01 €.
+          } @else if (form.controls.amount.touched && form.controls.amount.hasError('max')) {
+            Plafond de 10 000 € par virement.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="label">Libellé <span class="muted">(facultatif)</span></label>
+        <input
+          id="label"
+          type="text"
+          formControlName="label"
+          placeholder="Ex. Remboursement déjeuner"
+          [class.invalid]="form.controls.label.touched && form.controls.label.invalid"
+        />
+        <span class="error">
+          @if (form.controls.label.touched && form.controls.label.hasError('maxlength')) {
+            Libellé trop long (140 caractères max).
+          }
+        </span>
+      </div>
+
+      <div class="actions">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="submitting() || pending()"
+        >
+          @if (submitting()) {
+            <span class="spin">⟳</span> Envoi…
+          } @else {
+            Envoyer le virement
+          }
+        </button>
+        <a class="btn btn-ghost" routerLink="/dashboard">Annuler</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Suivi du virement -->
+  @if (pending()) {
+    <div class="card status-card status-card--pending">
+      <span class="spin big">⟳</span>
+      <div>
+        <strong>Virement en cours de traitement…</strong>
+        <p class="muted">Nous confirmons l'opération auprès de la banque.</p>
+      </div>
+    </div>
+  } @else if (timedOut()) {
+    <div class="card status-card status-card--pending">
+      <span class="big">⏳</span>
+      <div>
+        <strong>Toujours en traitement</strong>
+        <p class="muted">
+          Le virement prend plus de temps que prévu. Consultez
+          <a routerLink="/history">l'historique</a> dans un instant.
+        </p>
+      </div>
+    </div>
+  } @else if (result(); as r) {
+    @if (r.status === 'COMPLETED') {
+      <div class="card status-card status-card--ok">
+        <span class="big">✓</span>
+        <div>
+          <strong>Virement effectué</strong>
+          <p class="muted">
+            {{ r.amount }} € envoyés vers {{ r.toAccount }}.
+          </p>
+          <div class="status-card__cta">
+            <button class="btn btn-ghost btn-sm" type="button" (click)="reset()">
+              Nouveau virement
+            </button>
+            <a class="btn btn-ghost btn-sm" routerLink="/history">Voir l'historique</a>
+          </div>
+        </div>
+      </div>
+    } @else if (r.status === 'FAILED') {
+      <div class="card status-card status-card--fail">
+        <span class="big">✕</span>
+        <div>
+          <strong>Virement refusé</strong>
+          <p class="muted">{{ r.failureReason || 'Opération refusée.' }}</p>
+          <div class="status-card__cta">
+            <button class="btn btn-ghost btn-sm" type="button" (click)="reset()">Réessayer</button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

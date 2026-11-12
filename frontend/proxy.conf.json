@@ -1,0 +1,5 @@
+{
+  "/api/auth": { "target": "http://localhost:8081", "secure": false },
+  "/api/accounts": { "target": "http://localhost:8081", "secure": false },
+  "/api/transfers": { "target": "http://localhost:8082", "secure": false }
+}

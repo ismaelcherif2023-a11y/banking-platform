@@ -1,0 +1,27 @@
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" routerLink="/dashboard">
+      <span class="brand__mark">N</span>
+      <span class="brand__name">Nova Bank</span>
+    </a>
+
+    <button class="burger" type="button" (click)="toggleMenu()" aria-label="Menu">☰</button>
+
+    <nav class="nav" [class.nav--open]="menuOpen()" (click)="menuOpen.set(false)">
+      <a routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a>
+      <a routerLink="/transfer" routerLinkActive="active">Virement</a>
+      <a routerLink="/history" routerLinkActive="active">Historique</a>
+    </nav>
+
+    <div class="user">
+      @if (account(); as acc) {
+        <span class="user__name">{{ acc.ownerName }}</span>
+      }
+      <button class="btn btn-ghost btn-sm" type="button" (click)="logout()">Déconnexion</button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <router-outlet />
+</main>
