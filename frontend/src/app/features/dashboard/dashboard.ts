@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AccountService } from '../../core/account.service';
 import { extractError } from '../../core/problem';
-import { formatEuros } from '../../core/format';
+import { formatEuros, maskEmail } from '../../core/format';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,10 +17,18 @@ export class Dashboard {
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly copied = signal(false);
+  protected readonly showEmail = signal(false);
 
   protected readonly balanceLabel = computed(() => {
     const acc = this.account();
     return acc ? formatEuros(acc.balance) : '—';
+  });
+
+  /** E-mail affiché : masqué par défaut, en clair si l'utilisateur le demande. */
+  protected readonly emailLabel = computed(() => {
+    const acc = this.account();
+    if (!acc) return '—';
+    return this.showEmail() ? acc.email : maskEmail(acc.email);
   });
 
   constructor() {
