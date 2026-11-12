@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { first, switchMap, timeout, timer } from 'rxjs';
 import { TransferService } from '../../core/transfer.service';
 import { AccountService } from '../../core/account.service';
 import { Transfer } from '../../core/models';
 import { extractError } from '../../core/problem';
+import { formatEuros } from '../../core/format';
 
 const POLL_INTERVAL_MS = 800;
 const POLL_TIMEOUT_MS = 20000;
@@ -22,6 +23,7 @@ export class TransferPage {
   private readonly accounts = inject(AccountService);
 
   protected readonly submitting = signal(false);
+  protected readonly submitted = signal(false);
   protected readonly error = signal<string | null>(null);
   /** `pending` pendant le polling, puis le virement final (COMPLETED/FAILED). */
   protected readonly result = signal<Transfer | null>(null);
@@ -37,7 +39,17 @@ export class TransferPage {
     label: ['', [Validators.maxLength(140)]],
   });
 
+  /** N'affiche l'erreur qu'après interaction (champ touché) ou soumission. */
+  protected showError(ctrl: AbstractControl): boolean {
+    return ctrl.invalid && (ctrl.touched || this.submitted());
+  }
+
+  protected euros(amount: number): string {
+    return formatEuros(amount);
+  }
+
   protected submit(): void {
+    this.submitted.set(true);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -94,5 +106,6 @@ export class TransferPage {
     this.result.set(null);
     this.error.set(null);
     this.timedOut.set(false);
+    this.submitted.set(false);
   }
 }

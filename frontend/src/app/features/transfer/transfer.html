@@ -15,12 +15,12 @@
           type="text"
           formControlName="toAccount"
           placeholder="FR76…"
-          [class.invalid]="form.controls.toAccount.touched && form.controls.toAccount.invalid"
+          [class.invalid]="showError(form.controls.toAccount)"
         />
         <span class="error">
-          @if (form.controls.toAccount.touched && form.controls.toAccount.hasError('required')) {
+          @if (showError(form.controls.toAccount) && form.controls.toAccount.hasError('required')) {
             Le compte bénéficiaire est requis.
-          } @else if (form.controls.toAccount.touched && form.controls.toAccount.hasError('maxlength')) {
+          } @else if (showError(form.controls.toAccount) && form.controls.toAccount.hasError('maxlength')) {
             Numéro de compte trop long.
           }
         </span>
@@ -35,14 +35,14 @@
           min="0.01"
           formControlName="amount"
           placeholder="250.00"
-          [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
+          [class.invalid]="showError(form.controls.amount)"
         />
         <span class="error">
-          @if (form.controls.amount.touched && form.controls.amount.hasError('required')) {
+          @if (showError(form.controls.amount) && form.controls.amount.hasError('required')) {
             Le montant est requis.
-          } @else if (form.controls.amount.touched && form.controls.amount.hasError('min')) {
+          } @else if (showError(form.controls.amount) && form.controls.amount.hasError('min')) {
             Le montant doit être d'au moins 0,01 €.
-          } @else if (form.controls.amount.touched && form.controls.amount.hasError('max')) {
+          } @else if (showError(form.controls.amount) && form.controls.amount.hasError('max')) {
             Plafond de 10 000 € par virement.
           }
         </span>
@@ -55,10 +55,10 @@
           type="text"
           formControlName="label"
           placeholder="Ex. Remboursement déjeuner"
-          [class.invalid]="form.controls.label.touched && form.controls.label.invalid"
+          [class.invalid]="showError(form.controls.label)"
         />
         <span class="error">
-          @if (form.controls.label.touched && form.controls.label.hasError('maxlength')) {
+          @if (showError(form.controls.label) && form.controls.label.hasError('maxlength')) {
             Libellé trop long (140 caractères max).
           }
         </span>
@@ -108,7 +108,7 @@
         <div>
           <strong>Virement effectué</strong>
           <p class="muted">
-            {{ r.amount }} € envoyés vers {{ r.toAccount }}.
+            {{ euros(r.amount) }} envoyés vers {{ r.toAccount }}.
           </p>
           <div class="status-card__cta">
             <button class="btn btn-ghost btn-sm" type="button" (click)="reset()">

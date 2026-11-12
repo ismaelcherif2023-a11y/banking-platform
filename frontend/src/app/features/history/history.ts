@@ -4,6 +4,7 @@ import { TransferService } from '../../core/transfer.service';
 import { AuthService } from '../../core/auth.service';
 import { Transfer } from '../../core/models';
 import { extractError } from '../../core/problem';
+import { formatEuros } from '../../core/format';
 
 interface TransferRow extends Transfer {
   outgoing: boolean;
@@ -52,7 +53,7 @@ export class History {
 
   protected amountLabel(t: TransferRow): string {
     const sign = t.outgoing ? '−' : '+';
-    return `${sign} ${t.amount.toFixed(2)} €`;
+    return `${sign} ${formatEuros(t.amount)}`;
   }
 
   protected date(iso: string): string {

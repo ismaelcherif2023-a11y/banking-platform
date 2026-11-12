@@ -10,7 +10,7 @@
       <ul class="auth__features">
         <li>Virements traités en temps réel</li>
         <li>Suivi complet de vos opérations</li>
-        <li>Connexion chiffrée de bout en bout</li>
+        <li>Authentification sécurisée par JWT</li>
       </ul>
     </div>
     <small style="color: #9aa3cf">© 2026 Nova Bank — démo</small>
@@ -33,12 +33,12 @@
           formControlName="email"
           autocomplete="email"
           placeholder="vous@exemple.com"
-          [class.invalid]="form.controls.email.touched && form.controls.email.invalid"
+          [class.invalid]="showError(form.controls.email)"
         />
         <span class="error">
-          @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+          @if (showError(form.controls.email) && form.controls.email.hasError('required')) {
             L'adresse e-mail est requise.
-          } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+          } @else if (showError(form.controls.email) && form.controls.email.hasError('email')) {
             Format d'e-mail invalide.
           }
         </span>
@@ -52,10 +52,10 @@
           formControlName="password"
           autocomplete="current-password"
           placeholder="••••••••"
-          [class.invalid]="form.controls.password.touched && form.controls.password.invalid"
+          [class.invalid]="showError(form.controls.password)"
         />
         <span class="error">
-          @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+          @if (showError(form.controls.password) && form.controls.password.hasError('required')) {
             Le mot de passe est requis.
           }
         </span>

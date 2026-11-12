@@ -33,10 +33,10 @@
           formControlName="fullName"
           autocomplete="name"
           placeholder="Alice Martin"
-          [class.invalid]="form.controls.fullName.touched && form.controls.fullName.invalid"
+          [class.invalid]="showError(form.controls.fullName)"
         />
         <span class="error">
-          @if (form.controls.fullName.touched && form.controls.fullName.hasError('required')) {
+          @if (showError(form.controls.fullName) && form.controls.fullName.hasError('required')) {
             Le nom complet est requis.
           }
         </span>
@@ -50,12 +50,12 @@
           formControlName="email"
           autocomplete="email"
           placeholder="vous@exemple.com"
-          [class.invalid]="form.controls.email.touched && form.controls.email.invalid"
+          [class.invalid]="showError(form.controls.email)"
         />
         <span class="error">
-          @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+          @if (showError(form.controls.email) && form.controls.email.hasError('required')) {
             L'adresse e-mail est requise.
-          } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+          } @else if (showError(form.controls.email) && form.controls.email.hasError('email')) {
             Format d'e-mail invalide.
           }
         </span>
@@ -69,12 +69,12 @@
           formControlName="password"
           autocomplete="new-password"
           placeholder="8 caractères minimum"
-          [class.invalid]="form.controls.password.touched && form.controls.password.invalid"
+          [class.invalid]="showError(form.controls.password)"
         />
         <span class="error">
-          @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+          @if (showError(form.controls.password) && form.controls.password.hasError('required')) {
             Le mot de passe est requis.
-          } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+          } @else if (showError(form.controls.password) && form.controls.password.hasError('minlength')) {
             8 caractères minimum.
           }
         </span>
