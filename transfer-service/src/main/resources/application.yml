@@ -1,0 +1,45 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: transfer-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/transfers_db}
+    username: ${DB_USER:bank}
+    password: ${DB_PASSWORD:bank}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:change-me-this-is-a-dev-only-secret-32b+}
+    ttl: ${JWT_TTL:PT2H}
+  cors:
+    allowed-origin: ${CORS_ORIGIN:http://localhost:4200}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
