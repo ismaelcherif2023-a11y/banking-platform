@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isma.bank.transfer.config.KafkaTopicsConfig;
 import com.isma.bank.transfer.domain.Transfer;
 import com.isma.bank.transfer.domain.TransferRepository;
+import com.isma.bank.transfer.domain.TransferStatus;
 import com.isma.bank.transfer.messaging.TransferRequestedEvent;
 import com.isma.bank.transfer.messaging.TransferResultEvent;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -26,11 +29,17 @@ public class TransferService {
     private final TransferRepository transfers;
     private final KafkaTemplate<String, String> kafka;
     private final ObjectMapper mapper;
+    private final MeterRegistry meters;
 
-    public TransferService(TransferRepository transfers, KafkaTemplate<String, String> kafka, ObjectMapper mapper) {
+    public TransferService(TransferRepository transfers, KafkaTemplate<String, String> kafka, ObjectMapper mapper,
+                           MeterRegistry meters) {
         this.transfers = transfers;
         this.kafka = kafka;
         this.mapper = mapper;
+        this.meters = meters;
+        // Pré-enregistre les deux séries pour qu'elles existent (à 0) dès le démarrage.
+        Counter.builder("bank.transfers").tag("status", TransferStatus.COMPLETED.name()).register(meters);
+        Counter.builder("bank.transfers").tag("status", TransferStatus.FAILED.name()).register(meters);
     }
 
     /**
@@ -58,11 +67,16 @@ public class TransferService {
             return;
         }
         Transfer transfer = found.get();
+        if (transfer.getStatus() != TransferStatus.PENDING) {
+            // Déjà traité : Kafka livre « au moins une fois », on ne recompte pas.
+            return;
+        }
         if (result.status() == TransferResultEvent.Status.COMPLETED) {
             transfer.complete();
         } else {
             transfer.fail(result.reason());
         }
+        meters.counter("bank.transfers", "status", transfer.getStatus().name()).increment();
         log.info("Virement {} -> {}", transfer.getId(), transfer.getStatus());
     }
 

@@ -7,6 +7,7 @@ import com.isma.bank.transfer.domain.TransferStatus;
 import com.isma.bank.transfer.messaging.TransferResultEvent;
 import com.isma.bank.transfer.service.InvalidTransferException;
 import com.isma.bank.transfer.service.TransferService;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -27,13 +28,15 @@ class TransferServiceTest {
     private TransferRepository repo;
     private KafkaTemplate<String, String> kafka;
     private TransferService service;
+    private SimpleMeterRegistry meters;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     void setUp() {
         repo = mock(TransferRepository.class);
         kafka = mock(KafkaTemplate.class);
-        service = new TransferService(repo, kafka, new ObjectMapper().findAndRegisterModules());
+        meters = new SimpleMeterRegistry();
+        service = new TransferService(repo, kafka, new ObjectMapper().findAndRegisterModules(), meters);
         when(repo.save(any(Transfer.class))).thenAnswer(inv -> inv.getArgument(0));
         CompletableFuture<SendResult<String, String>> ok = CompletableFuture.completedFuture(null);
         when(kafka.send(anyString(), anyString(), anyString())).thenReturn(ok);
@@ -63,6 +66,7 @@ class TransferServiceTest {
 
         assertThat(t.getStatus()).isEqualTo(TransferStatus.COMPLETED);
         assertThat(t.getCompletedAt()).isNotNull();
+        assertThat(meters.counter("bank.transfers", "status", "COMPLETED").count()).isEqualTo(1.0);
     }
 
     @Test
@@ -75,5 +79,8 @@ class TransferServiceTest {
 
         assertThat(t.getStatus()).isEqualTo(TransferStatus.FAILED);
         assertThat(t.getFailureReason()).isEqualTo("Solde insuffisant");
+        // La relivraison (COMPLETED) ne doit pas recompter : 1 seul FAILED, 0 COMPLETED.
+        assertThat(meters.counter("bank.transfers", "status", "FAILED").count()).isEqualTo(1.0);
+        assertThat(meters.counter("bank.transfers", "status", "COMPLETED").count()).isEqualTo(0.0);
     }
 }
