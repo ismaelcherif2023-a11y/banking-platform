@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { frIbanValidator, isValidFrIban, normalizeAccount } from './validators';
 
-describe('validators — compte bénéficiaire (IBAN FR)', () => {
+describe('validators : compte bénéficiaire (IBAN FR)', () => {
   const VALID = 'FR7630001007941234567890185'; // FR76 + 23 chiffres
 
   it('normalise en retirant les espaces et en majuscules', () => {

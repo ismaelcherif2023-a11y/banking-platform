@@ -7,7 +7,7 @@ import { CreateTransferRequest, Transfer } from './models';
 export class TransferService {
   private readonly http = inject(HttpClient);
 
-  /** Crée un virement — réponse 202, statut initial PENDING. */
+  /** Crée un virement : réponse 202, statut initial PENDING. */
   create(body: CreateTransferRequest): Observable<Transfer> {
     return this.http.post<Transfer>('/api/transfers', body);
   }

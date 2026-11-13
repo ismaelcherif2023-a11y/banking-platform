@@ -19,7 +19,7 @@
     <div class="balance-card__account">
       <div>
         <span class="balance-card__account-label">Numéro de compte</span>
-        <span class="balance-card__number">{{ account()?.number || '—' }}</span>
+        <span class="balance-card__number">{{ account()?.number || '-' }}</span>
       </div>
       <button
         class="copy-btn"
@@ -41,7 +41,7 @@
 <div class="info-grid">
   <div class="card info-tile">
     <span class="muted">Titulaire</span>
-    <strong>{{ account()?.ownerName || '—' }}</strong>
+    <strong>{{ account()?.ownerName || '-' }}</strong>
   </div>
   <div class="card info-tile">
     <span class="muted">Statut du compte</span>
@@ -49,7 +49,7 @@
   </div>
   <div class="card info-tile">
     <span class="muted">Devise</span>
-    <strong>{{ account() ? 'Euro (€)' : '—' }}</strong>
+    <strong>{{ account() ? 'Euro (€)' : '-' }}</strong>
   </div>
 </div>
 
