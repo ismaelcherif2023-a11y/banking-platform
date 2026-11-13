@@ -2,7 +2,7 @@
 
 Plateforme bancaire simplifiée construite en **architecture microservices** : ouverture de compte, authentification JWT et **virements asynchrones orchestrés par Apache Kafka**, avec garanties de cohérence (transactions, verrouillage, idempotence).
 
-![Java](https://img.shields.io/badge/Java-21-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen) ![Kafka](https://img.shields.io/badge/Apache%20Kafka-3.9-black) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Java](https://img.shields.io/badge/Java-21-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen) ![Angular](https://img.shields.io/badge/Angular-21-dd0031) ![Kafka](https://img.shields.io/badge/Apache%20Kafka-3.9-black) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED) ![Prometheus](https://img.shields.io/badge/Prometheus-supervision-E6522C) ![Grafana](https://img.shields.io/badge/Grafana-dashboard-F46800) [![CI](https://github.com/ismaelcherif2023-a11y/banking-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/ismaelcherif2023-a11y/banking-platform/actions/workflows/ci.yml)
 
 ## Aperçu
 
@@ -16,7 +16,7 @@ Plateforme bancaire simplifiée construite en **architecture microservices** : o
     <td align="center"><img src="docs/screenshots/history.png" alt="Historique" width="100%"><br><sub><b>Historique</b></sub></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><img src="docs/screenshots/account.png" alt="Mon compte" width="100%"><br><sub><b>Mon compte</b></sub></td>
+    <td colspan="2" align="center"><img src="docs/screenshots/account.png" alt="Mon compte" width="70%"><br><sub><b>Mon compte</b></sub></td>
   </tr>
 </table>
 
