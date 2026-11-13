@@ -4,6 +4,22 @@ Plateforme bancaire simplifiée construite en **architecture microservices** : o
 
 ![Java](https://img.shields.io/badge/Java-21-orange) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen) ![Kafka](https://img.shields.io/badge/Apache%20Kafka-3.9-black) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
 
+## Aperçu
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/screenshots/login.png" alt="Connexion" width="100%"><br><sub><b>Connexion</b></sub></td>
+    <td width="50%" align="center"><img src="docs/screenshots/dashboard.png" alt="Tableau de bord" width="100%"><br><sub><b>Tableau de bord</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/transfer.png" alt="Virement" width="100%"><br><sub><b>Virement</b></sub></td>
+    <td align="center"><img src="docs/screenshots/history.png" alt="Historique" width="100%"><br><sub><b>Historique</b></sub></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="docs/screenshots/account.png" alt="Mon compte" width="100%"><br><sub><b>Mon compte</b></sub></td>
+  </tr>
+</table>
+
 ## Architecture
 
 ```mermaid
