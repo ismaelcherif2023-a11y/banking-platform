@@ -49,7 +49,7 @@ export class AccountPage {
 
   protected readonly ibanCopied = signal(false);
 
-  // Sécurité — formulaire de changement de mot de passe
+  // Sécurité : formulaire de changement de mot de passe
   protected readonly pwSubmitted = signal(false);
   protected readonly pwLoading = signal(false);
   protected readonly pwError = signal<string | null>(null);
@@ -65,7 +65,7 @@ export class AccountPage {
     { validators: passwordsMatch },
   );
 
-  // Préférences — notifications par e-mail (persistées localement pour la démo)
+  // Préférences : notifications par e-mail (persistées localement pour la démo)
   protected readonly notifications = signal(this.readNotifications());
 
   constructor() {
@@ -95,15 +95,15 @@ export class AccountPage {
       this.ibanCopied.set(true);
       setTimeout(() => this.ibanCopied.set(false), 1800);
     } catch {
-      /* presse-papiers indisponible — ignore */
+      /* presse-papiers indisponible : on ignore */
     }
   }
 
   protected downloadRib(): void {
     const acc = this.account();
     if (!acc) return;
-    // Les accents (é, è…) et € sont valides en WinAnsi ; on évite seulement le
-    // tiret cadratin (—) et l'apostrophe typographique (’), hors de cet encodage.
+    // Les accents et le symbole euro sont valides en WinAnsi ; on evite seulement
+    // le tiret cadratin et l'apostrophe typographique, hors de cet encodage.
     const blob = buildRibPdf({
       title: "Relevé d'Identité Bancaire (RIB)",
       subtitle: `${BANK_NAME} - document généré le ${this.formatDate(new Date().toISOString(), false)}`,
@@ -156,7 +156,7 @@ export class AccountPage {
     try {
       localStorage.setItem(NOTIF_KEY, next ? '1' : '0');
     } catch {
-      /* stockage indisponible — ignore */
+      /* stockage indisponible : on ignore */
     }
   }
 
@@ -175,9 +175,9 @@ export class AccountPage {
   }
 
   private formatDate(iso: string | null | undefined, withTime: boolean): string {
-    if (!iso) return '—';
+    if (!iso) return '-';
     const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return '—';
+    if (Number.isNaN(d.getTime())) return '-';
     try {
       return new Intl.DateTimeFormat('fr-FR', {
         dateStyle: 'long',

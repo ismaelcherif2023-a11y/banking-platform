@@ -20,7 +20,7 @@ export class Dashboard {
 
   protected readonly balanceLabel = computed(() => {
     const acc = this.account();
-    return acc ? formatEuros(acc.balance) : '—';
+    return acc ? formatEuros(acc.balance) : '-';
   });
 
   constructor() {
@@ -47,7 +47,7 @@ export class Dashboard {
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 1800);
     } catch {
-      /* clipboard indisponible — ignore */
+      /* clipboard indisponible : on ignore */
     }
   }
 }

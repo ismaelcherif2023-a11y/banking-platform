@@ -1,100 +1,96 @@
 <div class="auth">
-  <aside class="auth__brand">
+  <div class="auth__inner">
     <div class="auth__logo">
       <span class="auth__logo-mark">I</span>
-      ISMA BANK
+      <span class="auth__logo-name">ISMA BANK</span>
     </div>
-    <div class="auth__pitch">
-      <h2>Votre banque, simple et instantanée.</h2>
-      <p>Gérez votre compte et envoyez de l'argent en quelques secondes, en toute sécurité.</p>
-      <ul class="auth__features">
-        <li>Virements traités en temps réel</li>
-        <li>Suivi complet de vos opérations</li>
-        <li>Authentification sécurisée par JWT</li>
-      </ul>
-    </div>
-    <small style="color: #9fbaab">© 2026 ISMA BANK — démo</small>
-  </aside>
 
-  <main class="auth__form-wrap">
-    <form class="auth__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <h1>Bon retour 👋</h1>
-      <p class="sub">Connectez-vous à votre espace.</p>
+    <div class="auth__card card">
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <h1>Connexion à votre espace client</h1>
 
-      @if (error()) {
-        <div class="alert alert-danger" style="margin-bottom: 20px">{{ error() }}</div>
-      }
-
-      <div class="field">
-        <label for="email">Adresse e-mail</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          formControlName="email"
-          autocomplete="username"
-          placeholder="vous@exemple.com"
-          [class.invalid]="showError(form.controls.email)"
-        />
-        <span class="error">
-          @if (showError(form.controls.email) && form.controls.email.hasError('required')) {
-            L'adresse e-mail est requise.
-          } @else if (showError(form.controls.email) && form.controls.email.hasError('email')) {
-            Format d'e-mail invalide.
-          }
-        </span>
-      </div>
-
-      <div class="field">
-        <label for="password">Mot de passe</label>
-        <div class="password-field">
-          <input
-            id="password"
-            name="password"
-            [type]="showPassword() ? 'text' : 'password'"
-            formControlName="password"
-            autocomplete="current-password"
-            placeholder="••••••••"
-            [class.invalid]="showError(form.controls.password)"
-          />
-          <button
-            type="button"
-            class="password-toggle"
-            (click)="showPassword.set(!showPassword())"
-            [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
-            [attr.aria-pressed]="showPassword()"
-          >
-            @if (showPassword()) {
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                <line x1="1" y1="1" x2="23" y2="23" />
-              </svg>
-            } @else {
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            }
-          </button>
-        </div>
-        <span class="error">
-          @if (showError(form.controls.password) && form.controls.password.hasError('required')) {
-            Le mot de passe est requis.
-          }
-        </span>
-      </div>
-
-      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading()">
-        @if (loading()) {
-          <span class="spin">⟳</span> Connexion…
-        } @else {
-          Se connecter
+        @if (error()) {
+          <div class="alert alert-danger" style="margin-bottom: 20px">{{ error() }}</div>
         }
-      </button>
 
-      <p class="auth__switch">
-        Pas encore de compte ? <a routerLink="/register">Créer un compte</a>
-      </p>
-    </form>
-  </main>
+        <div class="field">
+          <label for="email">Identifiant</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            formControlName="email"
+            autocomplete="username"
+            placeholder="vous@exemple.com"
+            [class.invalid]="showError(form.controls.email)"
+          />
+          <span class="error">
+            @if (showError(form.controls.email) && form.controls.email.hasError('required')) {
+              L'identifiant est requis.
+            } @else if (showError(form.controls.email) && form.controls.email.hasError('email')) {
+              Format d'identifiant invalide.
+            }
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <div class="password-field">
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              [class.invalid]="showError(form.controls.password)"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showPassword.set(!showPassword())"
+              [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+              [attr.aria-pressed]="showPassword()"
+            >
+              @if (showPassword()) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+              } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              }
+            </button>
+          </div>
+          <span class="error">
+            @if (showError(form.controls.password) && form.controls.password.hasError('required')) {
+              Le mot de passe est requis.
+            }
+          </span>
+        </div>
+
+        <label class="auth__check">
+          <input type="checkbox" [checked]="remember()" (change)="remember.set(!remember())" />
+          Se souvenir de mon identifiant
+        </label>
+
+        <button class="btn btn-primary btn-block" type="submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spin">⟳</span> Connexion…
+          } @else {
+            Se connecter
+          }
+        </button>
+
+        <p class="auth__switch">
+          Pas encore de compte ? <a routerLink="/register">Créer un compte</a>
+        </p>
+      </form>
+    </div>
+
+    <p class="auth__foot">© 2026 ISMA BANK. Application de démonstration.</p>
+  </div>
 </div>

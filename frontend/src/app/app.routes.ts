@@ -4,12 +4,12 @@ import { authGuard } from './core/auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    title: 'Connexion — ISMA BANK',
+    title: 'Connexion | ISMA BANK',
     loadComponent: () => import('./features/auth/login').then((m) => m.Login),
   },
   {
     path: 'register',
-    title: 'Inscription — ISMA BANK',
+    title: 'Ouverture de compte | ISMA BANK',
     loadComponent: () => import('./features/auth/register').then((m) => m.Register),
   },
   {
@@ -19,22 +19,22 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        title: 'Tableau de bord — ISMA BANK',
+        title: 'Tableau de bord | ISMA BANK',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'transfer',
-        title: 'Nouveau virement — ISMA BANK',
+        title: 'Nouveau virement | ISMA BANK',
         loadComponent: () => import('./features/transfer/transfer').then((m) => m.TransferPage),
       },
       {
         path: 'history',
-        title: 'Historique — ISMA BANK',
+        title: 'Historique | ISMA BANK',
         loadComponent: () => import('./features/history/history').then((m) => m.History),
       },
       {
         path: 'account',
-        title: 'Mon compte — ISMA BANK',
+        title: 'Mon compte | ISMA BANK',
         loadComponent: () => import('./features/account/account').then((m) => m.AccountPage),
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
