@@ -11,11 +11,12 @@
       <a routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a>
       <a routerLink="/transfer" routerLinkActive="active">Virement</a>
       <a routerLink="/history" routerLinkActive="active">Historique</a>
+      <a routerLink="/account" routerLinkActive="active">Mon compte</a>
     </nav>
 
     <div class="user">
       @if (account(); as acc) {
-        <span class="user__name">{{ acc.ownerName }}</span>
+        <a class="user__name" routerLink="/account" title="Mon compte">{{ acc.ownerName }}</a>
       }
       <button class="btn btn-ghost btn-sm" type="button" (click)="logout()">Déconnexion</button>
     </div>

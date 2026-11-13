@@ -1,4 +1,28 @@
-import { maskEmail } from './format';
+import { formatIban, maskEmail } from './format';
+
+describe('formatIban', () => {
+  it('regroupe les caractères par blocs de 4', () => {
+    expect(formatIban('FR7612345678901234567890123')).toBe(
+      'FR76 1234 5678 9012 3456 7890 123',
+    );
+  });
+
+  it('normalise les espaces existants et la casse', () => {
+    expect(formatIban('fr76 1234 5678')).toBe('FR76 1234 5678');
+    expect(formatIban('FR761234')).toBe('FR76 1234');
+  });
+
+  it('ne laisse pas d’espace en fin quand la longueur est multiple de 4', () => {
+    expect(formatIban('FR7612345678')).toBe('FR76 1234 5678');
+    expect(formatIban('FR7612345678')).not.toMatch(/\s$/);
+  });
+
+  it('gère les valeurs vides ou nulles', () => {
+    expect(formatIban('')).toBe('');
+    expect(formatIban(null)).toBe('');
+    expect(formatIban(undefined)).toBe('');
+  });
+});
 
 describe('maskEmail', () => {
   it('garde la première et la dernière lettre de la partie locale, conserve le domaine', () => {

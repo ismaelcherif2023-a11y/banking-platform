@@ -2,6 +2,7 @@ package com.isma.bank.account.service;
 
 import com.isma.bank.account.domain.*;
 import com.isma.bank.account.web.dto.AuthResponse;
+import com.isma.bank.account.web.dto.ChangePasswordRequest;
 import com.isma.bank.account.web.dto.LoginRequest;
 import com.isma.bank.account.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -44,14 +46,28 @@ public class AuthService {
         return new AuthResponse(tokenService.issue(user, account), account.getNumber());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AuthResponse login(LoginRequest req) {
         AppUser user = users.findByEmailIgnoreCase(req.email().trim())
                 .filter(u -> passwordEncoder.matches(req.password(), u.getPasswordHash()))
                 .orElseThrow(() -> new BadCredentialsException("Email ou mot de passe incorrect"));
         Account account = accounts.findByOwnerId(user.getId())
                 .orElseThrow(() -> new IllegalStateException("Aucun compte pour cet utilisateur"));
+        user.recordLogin();
+        users.save(user);
         return new AuthResponse(tokenService.issue(user, account), account.getNumber());
+    }
+
+    /** Change le mot de passe après vérification de l'ancien (BCrypt). */
+    @Transactional
+    public void changePassword(UUID userId, ChangePasswordRequest req) {
+        AppUser user = users.findById(userId)
+                .orElseThrow(() -> new BadCredentialsException("Utilisateur introuvable"));
+        if (!passwordEncoder.matches(req.currentPassword(), user.getPasswordHash())) {
+            throw new BadCredentialsException("Le mot de passe actuel est incorrect");
+        }
+        user.setPasswordHash(passwordEncoder.encode(req.newPassword()));
+        users.save(user);
     }
 
     /** Numéro au format IBAN français (FR76 + 23 chiffres) — fictif, pour la démo. */

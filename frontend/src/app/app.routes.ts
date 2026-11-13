@@ -32,6 +32,11 @@ export const routes: Routes = [
         title: 'Historique — ISMA BANK',
         loadComponent: () => import('./features/history/history').then((m) => m.History),
       },
+      {
+        path: 'account',
+        title: 'Mon compte — ISMA BANK',
+        loadComponent: () => import('./features/account/account').then((m) => m.AccountPage),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

@@ -1,3 +1,14 @@
+/**
+ * Formate un IBAN par groupes de 4 caractères, comme sur un RIB.
+ * Supprime les espaces existants et met en majuscules.
+ * Exemple : « FR7612345678901234567890123 » -> « FR76 1234 5678 9012 3456 7890 123 ».
+ */
+export function formatIban(iban: string | null | undefined): string {
+  const compact = (iban ?? '').replace(/\s+/g, '').toUpperCase();
+  if (!compact) return '';
+  return compact.replace(/(.{4})/g, '$1 ').trim();
+}
+
 /** Formate un montant en euros, format français : 1 000,00 €. */
 export function formatEuros(amount: number): string {
   try {

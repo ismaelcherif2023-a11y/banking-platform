@@ -16,12 +16,21 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface Account {
   number: string;
   ownerName: string;
   email: string;
   balance: number;
   currency: string;
+  /** Date d'ouverture du compte (ISO 8601). */
+  createdAt: string;
+  /** Date de dernière connexion réussie (ISO 8601), si connue. */
+  lastLoginAt: string | null;
 }
 
 export type TransferStatus = 'PENDING' | 'COMPLETED' | 'FAILED';

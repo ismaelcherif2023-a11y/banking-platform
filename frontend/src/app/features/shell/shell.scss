@@ -61,8 +61,8 @@
   text-decoration: none;
 }
 .nav a.active {
-  background: rgba(94, 114, 228, 0.12);
-  color: var(--brand-600);
+  background: var(--brand-tint);
+  color: var(--brand-700);
 }
 
 .user {
@@ -73,6 +73,13 @@
 .user__name {
   font-weight: 600;
   font-size: 0.92rem;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+}
+.user__name:hover {
+  color: var(--brand-600);
+  text-decoration: none;
 }
 
 .btn-sm {

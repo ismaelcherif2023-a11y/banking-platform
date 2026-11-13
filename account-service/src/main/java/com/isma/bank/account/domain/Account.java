@@ -67,4 +67,5 @@ public class Account {
     public UUID getOwnerId() { return ownerId; }
     public BigDecimal getBalance() { return balance; }
     public String getCurrency() { return currency; }
+    public Instant getCreatedAt() { return createdAt; }
 }

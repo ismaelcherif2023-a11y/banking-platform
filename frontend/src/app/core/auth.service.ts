@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { AuthResponse, LoginRequest, RegisterRequest } from './models';
+import { AuthResponse, ChangePasswordRequest, LoginRequest, RegisterRequest } from './models';
 
 const TOKEN_KEY = 'bank.token';
 const ACCOUNT_KEY = 'bank.account';
@@ -29,6 +29,11 @@ export class AuthService {
 
   login(body: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/api/auth/login', body).pipe(tap((r) => this.store(r)));
+  }
+
+  /** Change le mot de passe de l'utilisateur connecté (ne modifie pas la session). */
+  changePassword(body: ChangePasswordRequest): Observable<void> {
+    return this.http.put<void>('/api/auth/password', body);
   }
 
   /** Efface la session et renvoie vers la page de connexion. */

@@ -1,0 +1,184 @@
+<div class="head">
+  <div>
+    <h1>Mon compte</h1>
+    <p class="muted">Gérez votre profil, votre RIB et la sécurité de votre accès.</p>
+  </div>
+  <span class="badge badge-success">Compte actif</span>
+</div>
+
+<div class="acct-grid">
+  <!-- ---------- Profil ---------- -->
+  <section class="card section">
+    <h2 class="section__title">Profil</h2>
+    <dl class="rows">
+      <div class="row">
+        <dt>Nom complet</dt>
+        <dd>{{ account()?.ownerName || '—' }}</dd>
+      </div>
+      <div class="row">
+        <dt>Adresse e-mail</dt>
+        <dd>{{ maskedEmail() || '—' }}</dd>
+      </div>
+      <div class="row">
+        <dt>Compte ouvert le</dt>
+        <dd>{{ openedAt() }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ---------- Mon RIB ---------- -->
+  <section class="card section">
+    <h2 class="section__title">Mon RIB</h2>
+    <dl class="rows">
+      <div class="row">
+        <dt>Titulaire</dt>
+        <dd>{{ account()?.ownerName || '—' }}</dd>
+      </div>
+      <div class="row">
+        <dt>Banque</dt>
+        <dd>{{ bankName }}</dd>
+      </div>
+      <div class="row">
+        <dt>IBAN</dt>
+        <dd class="mono">{{ ibanFormatted() || '—' }}</dd>
+      </div>
+      <div class="row">
+        <dt>BIC</dt>
+        <dd class="mono">{{ bic }}</dd>
+      </div>
+    </dl>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" type="button" (click)="copyIban()" [disabled]="!account()">
+        @if (ibanCopied()) { ✓ IBAN copié } @else { ⧉ Copier l'IBAN }
+      </button>
+      <button class="btn btn-primary btn-sm" type="button" (click)="downloadRib()" [disabled]="!account()">
+        ⭳ Télécharger le RIB (PDF)
+      </button>
+    </div>
+  </section>
+
+  <!-- ---------- Sécurité ---------- -->
+  <section class="card section section--wide">
+    <h2 class="section__title">Sécurité</h2>
+    <p class="muted security-last-login">
+      Dernière connexion : <strong>{{ lastLogin() }}</strong>
+    </p>
+
+    @if (pwSuccess()) {
+      <div class="alert alert-success" style="margin-bottom: 16px">
+        Votre mot de passe a été modifié.
+      </div>
+    }
+    @if (pwError()) {
+      <div class="alert alert-danger" style="margin-bottom: 16px">{{ pwError() }}</div>
+    }
+
+    <form [formGroup]="pwForm" (ngSubmit)="submitPassword()" novalidate>
+      <div class="field">
+        <label for="currentPassword">Mot de passe actuel</label>
+        <input
+          id="currentPassword"
+          name="currentPassword"
+          [type]="showPasswords() ? 'text' : 'password'"
+          formControlName="currentPassword"
+          autocomplete="current-password"
+          [class.invalid]="showError(pwForm.controls.currentPassword)"
+        />
+        <span class="error">
+          @if (showError(pwForm.controls.currentPassword) && pwForm.controls.currentPassword.hasError('required')) {
+            Le mot de passe actuel est requis.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="newPassword">Nouveau mot de passe</label>
+        <input
+          id="newPassword"
+          name="newPassword"
+          [type]="showPasswords() ? 'text' : 'password'"
+          formControlName="newPassword"
+          autocomplete="new-password"
+          placeholder="8 caractères minimum"
+          [class.invalid]="showError(pwForm.controls.newPassword)"
+        />
+        <span class="error">
+          @if (showError(pwForm.controls.newPassword) && pwForm.controls.newPassword.hasError('required')) {
+            Le nouveau mot de passe est requis.
+          } @else if (showError(pwForm.controls.newPassword) && pwForm.controls.newPassword.hasError('minlength')) {
+            8 caractères minimum.
+          }
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">Confirmer le nouveau mot de passe</label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          [type]="showPasswords() ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          autocomplete="new-password"
+          [class.invalid]="showError(pwForm.controls.confirmPassword) || showMismatch"
+        />
+        <span class="error">
+          @if (showError(pwForm.controls.confirmPassword) && pwForm.controls.confirmPassword.hasError('required')) {
+            Veuillez confirmer le mot de passe.
+          } @else if (showMismatch) {
+            Les mots de passe ne correspondent pas.
+          }
+        </span>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" [checked]="showPasswords()" (change)="showPasswords.set(!showPasswords())" />
+        Afficher les mots de passe
+      </label>
+
+      <button class="btn btn-primary" type="submit" [disabled]="pwLoading()">
+        @if (pwLoading()) {
+          <span class="spin">⟳</span> Enregistrement…
+        } @else {
+          Changer le mot de passe
+        }
+      </button>
+    </form>
+  </section>
+
+  <!-- ---------- Plafonds ---------- -->
+  <section class="card section">
+    <h2 class="section__title">Plafonds</h2>
+    <dl class="rows">
+      <div class="row">
+        <dt>Plafond par virement</dt>
+        <dd>{{ transferLimitLabel }}</dd>
+      </div>
+    </dl>
+    <p class="muted hint">Montant maximum autorisé pour un virement unique.</p>
+  </section>
+
+  <!-- ---------- Préférences ---------- -->
+  <section class="card section">
+    <h2 class="section__title">Préférences</h2>
+    <div class="pref">
+      <div>
+        <strong>Notifications par e-mail</strong>
+        <span class="muted">Recevez un e-mail à chaque virement (démo).</span>
+      </div>
+      <button
+        type="button"
+        class="switch"
+        role="switch"
+        [attr.aria-checked]="notifications()"
+        [class.on]="notifications()"
+        (click)="toggleNotifications()"
+      >
+        <span class="switch__dot"></span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="logout-bar">
+  <button class="btn btn-ghost" type="button" (click)="logout()">Déconnexion</button>
+</div>

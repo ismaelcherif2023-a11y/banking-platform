@@ -46,6 +46,8 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Le changement de mot de passe exige un utilisateur authentifié.
+                        .requestMatchers(HttpMethod.PUT, "/api/auth/password").authenticated()
                         .requestMatchers("/api/auth/**", "/actuator/health/**", "/actuator/prometheus",
                                 "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
